@@ -3,11 +3,11 @@ import { Subject } from 'rxjs';
 import { {{ submenu|title }}Service } from '../{{ submenu }}.service';
 
 @Component({
-  selector: 'app-{{ submenu }}TODO',
-  templateUrl: '../pages/{{ submenu }}TODO.component.html'
+  selector: 'app-{{ submenu }}{% if extra %}-{{extra}}{% endif %}',
+  templateUrl: '../pages/{{ submenu }}{% if extra %}-{{extra}}{% endif %}.component.html'
 })
 
-export class {{ submenu|title }}TODOComponent implements OnInit {
+export class {{ submenu|title }}{{extra|title}}Component implements OnInit {
 
   ngOnInit() {
   }

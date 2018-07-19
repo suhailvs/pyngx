@@ -46,11 +46,12 @@ eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
                 temp = self.read_template(os.path.join('menu', i[1:])),
             ) 
 
-    def create_file(self, fn, temp, sm = []):
+    def create_file(self, fn, temp, sm = [],extra=''):
         filedata = temp.render(
             menu=self.menu,
             submenus = self.submenus,
-            submenu = sm,            
+            submenu = sm,    
+            extra=extra,       
         )
         fp = open(fn, 'w')
         fp.write(filedata)        
@@ -73,6 +74,7 @@ eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
                 sm = submenu,                
                 fn = os.path.join(self.menu,submenu,'components','%s%s.ts'%(submenu,i)),
                 temp = self.read_template(os.path.join('submenu', 'component.ts')),
+                extra = i.split('.')[0][1:],
             ) 
             self.create_file(
                 sm = submenu,                
@@ -81,7 +83,7 @@ eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
             ) 
 
     def display_help(self):
-        temp = self.read_template('help.ts'),
+        temp = self.read_template('help.ts')
         print(temp.render(menu=self.menu,submenus = self.submenus))
 
 # please call with argument(name of the menu) eg: python ng.py controlpanel
