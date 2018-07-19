@@ -4,10 +4,10 @@ COMPONENT_TEMPLATE = '''
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-$name',
+    selector: 'app-${menu}',
     template: '<router-outlet></router-outlet>'
 })
-export class ${cname}Component implements OnInit {
+export class ${cmenu}Component implements OnInit {
     constructor() {}
 
     ngOnInit() {}
@@ -21,35 +21,35 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 
-import { ${cname}RoutingModule } from './${name}-routing.module';
-import { ${cname}Component } from './${name}.component';
+import { ${cmenu}RoutingModule } from './${menu}-routing.module';
+import { ${cmenu}Component } from './${menu}.component';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    ${cname}RoutingModule,
+    ${cmenu}RoutingModule,
     DataTablesModule
   ],
   declarations: [
-    ${cname}Component
+    ${cmenu}Component
     ]
 })
-export class ${cname}Module { }
+export class ${cmenu}Module { }
 
 '''
 
 ROUTING_TEMPLATE='''
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ${cname}Component } from './${name}.component';
+import { ${cmenu}Component } from './${menu}.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: ${cname}Component,
+        component: ${cmenu}Component,
         children: [
-            // { path: '', redirectTo: 'student', pathMatch: 'prefix' },
-            // { path: 'student', loadChildren: './student/student.module#StudentModule'}
+            { path: '', redirectTo: '${submenu}', pathMatch: 'prefix' },
+            { path: '${submenu}', loadChildren: './${submenu}/${submenu}.module#${subcmenu}Module'}
         ]
     }
 ];
@@ -58,7 +58,7 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class ${cname}RoutingModule {}
+export class ${cmenu}RoutingModule {}
 
 '''
 ################################## SUB MENUS ####################################
@@ -70,15 +70,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ${cname}Component } from './components/${name}.component';
-import { ${cname}CuComponent } from './components/${name}-cu.component';
-import { ${cname}ViewComponent } from './components/${name}-view.component';
+import { ${subcmenu}Component } from './components/${submenu}.component';
+import { ${subcmenu}CuComponent } from './components/${submenu}-cu.component';
+import { ${subcmenu}ViewComponent } from './components/${submenu}-view.component';
 
 const routes: Routes = [
-  { path: '', component: ${cname}Component },
-  { path: 'add', component: ${cname}CuComponent },
-  { path: 'view/:id', component: ${cname}ViewComponent },
-  { path: 'edit/:id', component: ${cname}CuComponent },
+  { path: '', component: ${subcmenu}Component },
+  { path: 'add', component: ${subcmenu}CuComponent },
+  { path: 'view/:id', component: ${subcmenu}ViewComponent },
+  { path: 'edit/:id', component: ${subcmenu}CuComponent },
 ];
 
 @NgModule({
@@ -89,7 +89,7 @@ const routes: Routes = [
   exports: [ RouterModule ],
   declarations: []
 })
-export class ${cname}RoutingModule { }
+export class ${subcmenu}RoutingModule { }
 
 '''
 
@@ -101,27 +101,27 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { DataTablesModule } from 'angular-datatables';
 
-import { ${cname}RoutingModule } from './${name}-routing.module';
+import { ${subcmenu}RoutingModule } from './${submenu}-routing.module';
 
-import { ${cname}Component } from './components/${name}.component';
-import { ${cname}ViewComponent } from './components/${name}-view.component';
-import { ${cname}CuComponent } from './components/${name}-cu.component';
+import { ${subcmenu}Component } from './components/${submenu}.component';
+import { ${subcmenu}ViewComponent } from './components/${submenu}-view.component';
+import { ${subcmenu}CuComponent } from './components/${submenu}-cu.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ${cname}RoutingModule,
+    ${subcmenu}RoutingModule,
     DataTablesModule
   ],
   declarations: [
-    ${cname}Component,
-    ${cname}ViewComponent,
-    ${cname}CuComponent,
+    ${subcmenu}Component,
+    ${subcmenu}ViewComponent,
+    ${subcmenu}CuComponent,
     ]
 })
-export class ${cname}Module { }
+export class ${subcmenu}Module { }
 '''
 
 
@@ -133,21 +133,21 @@ import { HttpClient} from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class ${cname}Service {
+export class ${subcmenu}Service {
 
   constructor(private  httpClient:  HttpClient) {}
 
-  get${cname}() {
-    return this.httpClient.get('/students/studentcategory/');
+  get${subcmenu}s() {
+    return this.httpClient.get('/${menu}/${submenu}/');
   }
-  get${cname}(id) {
-    return this.httpClient.get(`/students/studentcategory/${id}/`);
+  get${subcmenu}(id) {
+    return this.httpClient.get(`/${menu}/${submenu}/${id}/`);
   }
-  post${cname}(studentcat) {
-    return this.httpClient.post('/students/studentcategory/', studentcat);
+  post${subcmenu}(${submenu}) {
+    return this.httpClient.post('/${menu}/${submenu}/', ${submenu});
   }
-  update${cname}(id, studentcat) {
-    return this.httpClient.patch(`/students/studentcategory/${id}/`, studentcat);
+  update${subcmenu}(id, ${submenu}) {
+    return this.httpClient.patch(`/${menu}/${submenu}/${id}/`, ${submenu});
   }
 }
 '''
@@ -155,14 +155,14 @@ export class ${cname}Service {
 SUB_COMPONENT_TEMPLATE = '''
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { StudentCategoryService } from '../student-category.service';
+import { ${subcmenu}Service } from '../${submenu}.service';
 
 @Component({
-  selector: 'app-student-category',
-  templateUrl: '../pages/student-category.component.html'
+  selector: 'app-${submenu}TODO',
+  templateUrl: '../pages/${submenu}TODO.component.html'
 })
 
-export class StudentCategoryComponent implements OnInit {
+export class ${subcmenu}TODOComponent implements OnInit {
 
   ngOnInit() {
   }
@@ -175,7 +175,7 @@ SUB_HTML_PAGE = '''
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Student Category</h2>
+        <h2>${subcmenu}</h2>
 
         <div class="clearfix"></div>
       </div>
