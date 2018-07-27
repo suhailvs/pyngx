@@ -14,7 +14,7 @@ class GenerateMenu:
                 for submenu in self.submenus: self.create_submenu(submenu)
                 self.display_help()
             else:
-                print('component already exist.')
+                print('component:%s already exist.'%self.menu)
         else:
             print('''please call with arguments(name of the menu, submenus), 
 eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
@@ -34,11 +34,8 @@ eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
                 contents += line
         return Template(contents)
 
-    #print(s.render(menu = 'xx',submenus = ['some1','some2'],submenu=''))
-
     def create_menu(self):
         print('generating menu:', self.menu)
-        # os.makedirs(self.menu)
         fdata = ['.component.ts','.module.ts','-routing.module.ts'] 
         for i in fdata:
             self.create_file(                
@@ -58,22 +55,20 @@ eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
         print('%s created successfully.'%fn)
     
     def create_submenu(self,submenu):
-        print('generating submenu:', submenu) 
-        # if last letter is s, remove it
-        # extra = submenu[:-1] if submenu[-1]=='s' else submenu
+        print('generating submenu:', submenu)
 
         for i in ['.service.ts', '.module.ts', '-routing.module.ts']:
             self.create_file(
                 sm = submenu,
                 fn = os.path.join(self.menu,submenu,submenu + i),
                 temp = self.read_template(os.path.join('submenu', i[1:])),
-                extra = submenu.rstrip('s')
+                extra = submenu.rstrip('s') # if last letter is s, remove it
             )
         self.create_components(submenu)
 
     def display_help(self):
-        temp = self.read_template('help.ts')
-        print(temp.render(menu=self.menu,submenus = self.submenus))
+        template = self.read_template('help.ts')
+        print(template.render(menu = self.menu, submenus = self.submenus))
 
     def create_components(self,submenu):
         # create components and pages
@@ -90,10 +85,10 @@ eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
             extra = submenu.rstrip('s') )
 
         for i in ['.component','-cu.component','-view.component']:
-            # eg: submenu/components/component
+            # eg: submenu/components/component.ts, submenu/pages/component.html
             create_file('components', '%s%s.ts'%(submenu,i), i[1:] + '.ts')
             create_file('pages', '%s%s.html'%(submenu,i), i[1:] + '.html')                
 
-# please call with argument(name of the menu) eg: python ng.py controlpanel
+
 if __name__=='__main__':
     c=GenerateMenu()

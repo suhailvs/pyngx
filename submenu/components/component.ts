@@ -11,7 +11,7 @@ export class {{ submenu|title }}Component implements OnDestroy, OnInit {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  private {{submenu}}:  Array<object> = [];
+  private {{extra}}s:  Array<object> = [];
   loading = false;
 
   constructor(private {{submenu}}Service:  {{ submenu|title }}Service) { }
@@ -22,13 +22,13 @@ export class {{ submenu|title }}Component implements OnDestroy, OnInit {
       pageLength: 10
     };
 
-    this.get{{ submenu|title }}();
+    this.get{{ extra|title }}s();
   }
 
-  public get{{ submenu|title }}() {
+  public get{{ extra|title }}s() {
     this.loading = true;
-    this.{{submenu}}Service.get{{ submenu|title }}().subscribe((data:  Array<object>) => {
-      this.{{submenu}}  =  data;
+    this.{{submenu}}Service.get{{ extra|title }}s().subscribe((data:  Array<object>) => {
+      this.{{extra}}s  =  data;
       // Calling the DT trigger to manually render the table
       // console.log(data);
       this.dtTrigger.next();
