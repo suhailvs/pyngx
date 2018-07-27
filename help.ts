@@ -7,7 +7,7 @@ const routes: Routes = [
         component: LayoutComponent,
         children: [
         ....
-        { path: '{{ menu }}', loadChildren: './{{ menu }}/{{ menu }}.module#{{ menu|title }}Module'}
+        { path: '{{ menu }}', loadChildren: './{{ menu }}/{{ menu }}.module#{{ menu|title }}Module'},
 
 Update app/shared/menu/menu.component.html::
 

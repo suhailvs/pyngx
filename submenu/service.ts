@@ -8,16 +8,16 @@ export class {{ submenu|title }}Service {
 
   constructor(private  httpClient:  HttpClient) {}
 
-  get{{ submenu|title }}s() {
+  get{{ extra|title }}s() {
     return this.httpClient.get('/{{ menu }}/{{ submenu }}/');
   }
-  get{{ submenu|title }}(id) {
+  get{{ extra|title }}(id) {
     return this.httpClient.get(`/{{ menu }}/{{ submenu }}/${id}/`);
   }
-  post{{ submenu|title }}({{ submenu }}) {
-    return this.httpClient.post('/{{ menu }}/{{ submenu }}/', {{ submenu }});
+  post{{ extra|title }}({{ extra }}) {
+    return this.httpClient.post('/{{ menu }}/{{ submenu }}/', {{ extra }});
   }
-  update{{ submenu|title }}(id, {{ submenu }}) {
-    return this.httpClient.patch(`/{{ menu }}/{{ submenu }}/${id}/`, {{ submenu }});
+  update{{ extra|title }}(id, {{ extra }}) {
+    return this.httpClient.patch(`/{{ menu }}/{{ submenu }}/${id}/`, {{ extra }});
   }
 }
