@@ -21,7 +21,7 @@ eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
     
 
     def create_directories(self):
-        print ('generating directories.')
+        # print ('generating directories.')
         for d in self.submenus:
             os.makedirs(os.path.join(self.menu,d,'components'))
             os.makedirs(os.path.join(self.menu,d,'pages'))
@@ -35,7 +35,7 @@ eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
         return Template(contents)
 
     def create_menu(self):
-        print('generating menu:', self.menu)
+        # print('generating menu:', self.menu)
         fdata = ['.component.ts','.module.ts','-routing.module.ts'] 
         for i in fdata:
             self.create_file(                
@@ -52,10 +52,10 @@ eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
         )
         fp = open(fn, 'w')
         fp.write(filedata)        
-        print('%s created successfully.'%fn)
+        # print('%s created successfully.'%fn)
     
     def create_submenu(self,submenu):
-        print('generating submenu:', submenu)
+        # print('generating submenu:', submenu)
 
         for i in ['.service.ts', '.module.ts', '-routing.module.ts']:
             self.create_file(
