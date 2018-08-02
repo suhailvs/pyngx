@@ -1,7 +1,6 @@
 import os,sys
-from string import Template
-#from jinja2 import Template
-from ng_templates import *
+#from string import Template
+from jinja2 import Template
 
 class GenerateMenu:
     def __init__(self):
@@ -15,98 +14,81 @@ class GenerateMenu:
                 for submenu in self.submenus: self.create_submenu(submenu)
                 self.display_help()
             else:
-                print('component already exist.')
+                print('component:%s already exist.'%self.menu)
         else:
             print('''please call with arguments(name of the menu, submenus), 
 eg: python ng.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
     
+
     def create_directories(self):
-        print ('generating directories.')
+        # print ('generating directories.')
         for d in self.submenus:
             os.makedirs(os.path.join(self.menu,d,'components'))
             os.makedirs(os.path.join(self.menu,d,'pages'))
 
+    def read_template(self,fname):
+        # read template from file for eg: menu/component.ts
+        contents = ""
+        with open(fname) as f:
+            for line in f.readlines():
+                contents += line
+        return Template(contents)
+
     def create_menu(self):
-        print('generating menu:', self.menu)
-        # os.makedirs(self.menu)
-        fdata = [
-            ('.component.ts', COMPONENT_TEMPLATE),
-            ('.module.ts', MODULE_TEMPLATE),
-            ('-routing.module.ts', ROUTING_TEMPLATE),
-        ] 
+        # print('generating menu:', self.menu)
+        fdata = ['.component.ts','.module.ts','-routing.module.ts'] 
         for i in fdata:
             self.create_file(                
-                fn = os.path.join(self.menu, self.menu + i[0]),
-                temp = Template(i[1]),
+                fn = os.path.join(self.menu, self.menu + i),
+                temp = self.read_template(os.path.join('menu', i[1:])),
             ) 
 
-    def create_file(self,fn,temp,m=None):
-        if not m: m=self.submenus[0]
-        
-        temps = temp.safe_substitute(
-            menu=self.menu, 
-            cmenu=self.menu.capitalize(),
-            submenu = m, 
-            subcmenu = m.capitalize(),            
+    def create_file(self, fn, temp, sm = '',extra=''):
+        filedata = temp.render(
+            menu=self.menu,
+            submenus = self.submenus,
+            submenu = sm,    
+            extra=extra,       
         )
         fp = open(fn, 'w')
-        fp.write(temps)        
-        print('%s created successfully.'%fn)
+        fp.write(filedata)        
+        # print('%s created successfully.'%fn)
     
     def create_submenu(self,submenu):
-        print('generating submenu:', submenu)        
-        fdata = [
-            ('.service.ts', SUB_SERVICE_TEMPLATE),
-            ('.module.ts', SUB_MODULE_TEMPLATE),
-            ('-routing.module.ts', SUB_ROUTING_TEMPLATE),
-        ] 
-        for i in fdata:
+        # print('generating submenu:', submenu)
+
+        for i in ['.service.ts', '.module.ts', '-routing.module.ts']:
             self.create_file(
-                m=submenu,
-                fn = os.path.join(self.menu,submenu,submenu + i[0]),
-                temp=Template(i[1])
-            ) 
-        # create components and pages
-        for i in ['','-cu','-view']:
-            
-            self.create_file(
-                m=submenu,                
-                fn = os.path.join(self.menu,submenu,'components',submenu+i+'.component.ts'),
-                temp=Template(SUB_COMPONENT_TEMPLATE)
-            ) 
-            self.create_file(
-                m=submenu,                
-                fn = os.path.join(self.menu,submenu,'pages',submenu+i+'.component.html'),
-                temp=Template(SUB_HTML_PAGE)
-            ) 
+                sm = submenu,
+                fn = os.path.join(self.menu,submenu,submenu + i),
+                temp = self.read_template(os.path.join('submenu', i[1:])),
+                extra = submenu.rstrip('s') # if last letter is s, remove it
+            )
+        self.create_components(submenu)
 
     def display_help(self):
-        s = Template('''
+        template = self.read_template('help.ts')
+        print(template.render(menu = self.menu, submenus = self.submenus))
 
-----------------------------------------------------
-Now copy the folder to your project directory(src/app/modules/). 
+    def create_components(self,submenu):
+        # create components and pages
+        # there are 3 components for (submenu users) -> 
+        #   1. users-cu.component.ts/html
+        #   2. users-view.component.ts/html
+        #   3. users.component.ts/html
+        #template_name = lambda e: i[1:] + e # eg: cu.component.ts/cu.component.html
 
-Update src/app/modules/layout-routing.module.ts file::
+        create_file = lambda folder,fname,template_file: self.create_file(
+            sm = submenu,
+            fn = os.path.join(self.menu,submenu,folder,fname),
+            temp = self.read_template(os.path.join('submenu',folder,template_file )),
+            extra = submenu.rstrip('s') )
 
-const routes: Routes = [
-    {
-        path: '',
-        component: LayoutComponent,
-        children: [
-        ....
-        { path: '${menu}', loadChildren: './${menu}/${menu}.module#${cmenu}Module'}
+        for i in ['.component','-cu.component','-view.component']:
+            # eg: submenu/components/component.ts, submenu/pages/component.html
+            create_file('components', '%s%s.ts'%(submenu,i), i[1:] + '.ts')
+            create_file('pages', '%s%s.html'%(submenu,i), i[1:] + '.html')                
 
 
-Update app/shared/menu/menu.component.html::
-
-<li><a><i class="fa fa-home"></i> ${cmenu} <span class="fa fa-chevron-down"></span></a>
-<ul class="nav child_menu">
-    <li><a [routerLink]="'/${menu}/SUBMENU'">${cmenu}</a></li>
-    <li>...sub menus...</li>
-</ul>
-</li>     
-''')
-        print(s.safe_substitute(menu = self.menu,cmenu=self.menu.capitalize()))
-# please call with argument(name of the menu) eg: python ng.py controlpanel
 if __name__=='__main__':
     c=GenerateMenu()
