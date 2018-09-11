@@ -11,11 +11,22 @@ const routes: Routes = [
     }
 ];
 
-Update app/shared/menu/menu.component.html::
+Update on BackEnd APP: dashboard/dashboard_menu.py::
 
-<li>
-    <a><i class="fa fa-home"></i> {{ menu|title }} <span class="fa fa-chevron-down"></span></a>
-    <ul class="nav child_menu">
-  {% for submenu in submenus %}    <li><a [routerLink]="'/{{ menu }}/{{submenu}}'">{{ submenu|title }}</a></li>        
-    {% endfor %}</ul>
-</li>
+SIDE_BAR_MENUS = [{
+    ...
+    {
+        "menu_text": "{{ menu|title }}",
+        'menu_icon': "fa fa-tasks",
+        'sub_menu': [{
+            'menu_text': 'add_subtitle',
+            'sub_sub_menu':[{% for submenu in submenus %}
+                {'link': '/{{ menu }}/{{submenu}}', 'menu_text': '{{ submenu|title }}',},{% endfor %}
+            ]
+        },{
+            'menu_text': 'if you want more subtitles',
+            ...
+        }]
+    },
+    ...
+]
