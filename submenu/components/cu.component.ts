@@ -39,31 +39,24 @@ export class {{ cap }}CuComponent implements OnInit {
     }
   onSubmit(): void {
     this.loading = true;
+    let myhttpService;
+    // alert(this.action_type);
     if (this.action_type === 'Add') {
-      // if (this.filestring) this.student.photo = this.filestring;
-      this.{{ submenu }}Service.post{{extra| title }}(this.{{ extra }})
-      .subscribe((response) => {
-        // console.log('created');
-        this.router.navigate(['/{{menu}}/{{ submenu }}/']);
-        // this.loading = false;
-      }, // success
+      myhttpService = this.{{ submenu }}Service.post{{extra| title }}(this.{{ extra }});
+    } else if (this.action_type === 'Update') {
+      myhttpService = this.{{ submenu }}Service.update{{extra| title }}(this.{{ submenu }}Id, this.{{ extra }});
+    }
+
+    myhttpService.subscribe((response) => {
+      this.router.navigate(['/{{menu}}/{{ submenu }}/']);
+    }, // success
       error => {
         // this.alertService.error(error);
         this.errors = error;
         this.loading = false;
         // console.log(error);
       }
-      );
-    } else if (this.action_type === 'Update') {
-      this.{{ submenu }}Service.update{{extra| title }}(this.{{ submenu }}Id, this.{{ extra }})
-        .subscribe((data) => {
-          this.router.navigate(['/{{menu}}/{{ submenu }}/']);
-        },
-        error => {
-          this.errors = error;
-          this.loading = false;
-        });
-    }
+    );    
   }
 
 }

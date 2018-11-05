@@ -11,7 +11,7 @@ export class {{ submenu|title }}Component implements OnDestroy, OnInit {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  private {{extra}}s:  Array<object> = [];
+  {{extra}}s:  Array<object> = [];
   loading = false;
 
   constructor(private {{submenu}}Service:  {{ submenu|title }}Service) { }
