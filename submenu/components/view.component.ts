@@ -13,17 +13,17 @@ import { {{ cap }}Service } from '../{{ submenu }}.service';
 export class {{ cap }}ViewComponent implements OnInit {
 
   loading = false;
-  {{ extra }}: Object = {};
+  {{ extra }}: any;
 
   constructor(
     private route: ActivatedRoute,
-    private {{ submenu }}Service:  {{ cap }}Service
+    private {{ submenu }}Service: {{ cap }}Service
   ) { }
 
   public get{{ extra|title }}() {
     this.loading = true;
     const id = this.route.snapshot.paramMap.get('id');
-    this.{{submenu}}Service.get{{extra| title }}(id).subscribe((data:  Array<object>) => {
+    this.{{submenu}}Service.get{{extra| title }}(id).subscribe((data: Array<object>) => {
       this.{{ extra }} = data;
       // console.log(this.student);
       this.loading = false;

@@ -11,24 +11,23 @@ export class {{ submenu|title }}Component implements OnDestroy, OnInit {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
-  {{extra}}s:  Array<object> = [];
+  {{extra}}s: Array<object> = [];
   loading = false;
 
-  constructor(private {{submenu}}Service:  {{ submenu|title }}Service) { }
+  constructor(private {{submenu}}Service: {{ submenu|title }}Service) { }
 
   ngOnInit() {
-  	this.dtOptions = {
+    this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10
     };
-
     this.get{{ extra|title }}s();
   }
 
   public get{{ extra|title }}s() {
     this.loading = true;
-    this.{{submenu}}Service.get{{ extra|title }}s().subscribe((data:  Array<object>) => {
-      this.{{extra}}s  =  data;
+    this.{{submenu}}Service.get{{ extra|title }}s().subscribe((data: Array<object>) => {
+      this.{{extra}}s = data;
       // Calling the DT trigger to manually render the table
       // console.log(data);
       this.dtTrigger.next();

@@ -11,9 +11,9 @@ import { {{ cap }}Service } from '../{{ submenu }}.service';
 
 export class {{ cap }}CuComponent implements OnInit {
   {{ submenu }}Id: string;
-  action_type = 'Add';
+  actionType = 'Add';
   loading = false;
-  loading_frm = true; // used to hide edit form while fetching
+  loadingFrm = true; // used to hide edit form while fetching
   {{ extra }}: any = {};
   errors: string;
 
@@ -27,11 +27,11 @@ export class {{ cap }}CuComponent implements OnInit {
       this.{{ submenu }}Id = this.route.snapshot.paramMap.get('id');
       if (this.{{ submenu }}Id) {
         // console.log('edit');
-        this.action_type = 'Update';
-        this.loading_frm = false;
+        this.actionType = 'Update';
+        this.loadingFrm = false;
         this.{{ submenu }}Service.get{{ extra| title  }}(this.{{ submenu }}Id)
           .subscribe( data => {
-            this.loading_frm = true; // show edit form
+            this.loadingFrm = true; // show edit form
             // console.log(data);
             this.{{ extra }} = data;
         });
@@ -40,10 +40,10 @@ export class {{ cap }}CuComponent implements OnInit {
   onSubmit(): void {
     this.loading = true;
     let myhttpService;
-    // alert(this.action_type);
-    if (this.action_type === 'Add') {
+    // alert(this.actionType);
+    if (this.actionType === 'Add') {
       myhttpService = this.{{ submenu }}Service.post{{extra| title }}(this.{{ extra }});
-    } else if (this.action_type === 'Update') {
+    } else if (this.actionType === 'Update') {
       myhttpService = this.{{ submenu }}Service.update{{extra| title }}(this.{{ submenu }}Id, this.{{ extra }});
     }
 
@@ -56,7 +56,7 @@ export class {{ cap }}CuComponent implements OnInit {
         this.loading = false;
         // console.log(error);
       }
-    );    
+    );
   }
 
 }

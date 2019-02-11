@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12 col-xs-12">
         <div class="x_panel">
-            <h2>{{ '{{' }} action_type {{ '}}' }} {{submenu|title}}</h2>
+            <h2>{{ '{{' }} actionType {{ '}}' }} {{submenu|title}}</h2>
         </div>
     </div>    
 </div>
@@ -9,8 +9,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
-        <img *ngIf="loading_frm==false" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" width="50">
-        <form *ngIf="loading_frm" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
+        <form *ngIf="loadingFrm" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                     <div class="form-group" [ngClass]="{ 'has-error': f.submitted && first_name.invalid }">
@@ -30,7 +29,7 @@
                     <div *ngIf="errors" class="alert alert-danger">{{ '{{' }}errors.error|json{{ '}}' }}</div>
                     <!--<a class="btn btn-warning pull-right" [routerLink]="'/controlpanel/users/'"> Cancel</a>-->
                     <a class="btn btn-danger pull-right" [routerLink]="'/{{menu}}/{{submenu}}/'"><i class="fa fa-close"></i> Cancel</a>
-                    <button class="btn btn-primary pull-right" [disabled]="loading" type="submit">{{ '{{' }} action_type {{ '}}' }} {{submenu|title}} </button>
+                    <button class="btn btn-primary pull-right" [disabled]="loading" type="submit">{{ '{{' }} actionType {{ '}}' }} {{submenu|title}} </button>
                     
                 </div>
             </div>

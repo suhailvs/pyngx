@@ -6,7 +6,7 @@ import { HttpClient} from '@angular/common/http';
 })
 export class {{ submenu|title }}Service {
 
-  constructor(private  httpClient:  HttpClient) {}
+  constructor(private  httpClient: HttpClient) {}
 
   get{{ extra|title }}s() {
     return this.httpClient.get('/{{ menu }}/{{ submenu }}/');
