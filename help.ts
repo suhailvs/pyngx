@@ -17,14 +17,14 @@ SIDE_BAR_MENUS = [{
     ...
     {
         "menu_text": "{{ menu|title }}",
-        'menu_icon': "fa fa-tasks",
-        'sub_menu': [{
-            'menu_text': 'add_subtitle',
-            'sub_sub_menu':[{% for submenu in submenus %}
-                {'link': '/{{ menu }}/{{submenu}}', 'menu_text': '{{ submenu|title }}',},{% endfor %}
+        "menu_icon": "fa fa-tasks",
+        "sub_menu": [{
+            "menu_text": "add_subtitle",
+            "sub_sub_menu":[{% for submenu in submenus %}
+                {"link": "/{{ menu }}/{{submenu}}", "menu_text": "{{ submenu|title }}"},{% endfor %}
             ]
         },{
-            'menu_text': 'if you want more subtitles',
+            "menu_text": "if you want more subtitles",
             ...
         }]
     },

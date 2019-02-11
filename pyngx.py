@@ -51,7 +51,7 @@ eg: python pyngx.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
             extra=extra,       
         )
         fp = open(fn, 'w')
-        fp.write(filedata)        
+        fp.write(filedata + "\n")        
         # print('%s created successfully.'%fn)
     
     def create_submenu(self,submenu):
