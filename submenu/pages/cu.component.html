@@ -1,5 +1,9 @@
 <div class="x_panel">
-    <h2>{{ '{{' }} actionType {{ '}}' }} {{submenu|title}}</h2>
+    <h2 [ngSwitch]="actionType">
+        <ng-container *ngSwitchCase="'Save'">Add</ng-container>
+        <ng-container *ngSwitchCase="'Update'">Edit</ng-container>
+         {{submenu|title}}
+    </h2>
 </div>
 
 <div class="x_panel">
@@ -23,7 +27,7 @@
                 <div *ngIf="errors" class="alert alert-danger">{{ '{{' }}errors.error|json{{ '}}' }}</div>
                 <!--<a class="btn btn-warning pull-right" [routerLink]="'/controlpanel/users/'"> Cancel</a>-->
                 <a class="btn btn-danger pull-right" [routerLink]="'/{{menu}}/{{submenu}}/'"><i class="fa fa-close"></i> Cancel</a>
-                <button class="btn btn-primary pull-right" [disabled]="loading" type="submit">{{ '{{' }} actionType {{ '}}' }} {{submenu|title}} </button>
+                <button class="btn btn-primary pull-right" [disabled]="loading" type="submit"><i class="fa fa-save"></i> {{ '{{' }} actionType {{ '}}' }}</button>
                 
             </div>
         </div>
