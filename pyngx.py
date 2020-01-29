@@ -84,10 +84,11 @@ eg: python pyngx.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
             temp = self.read_template(os.path.join('submenu',folder,template_file )),
             extra = submenu.rstrip('s') )
 
-        for i in ['.component','-cu.component','-view.component']:
+        for i in ['.component','-cu.component']:
             # eg: submenu/components/component.ts, submenu/pages/component.html
             create_file('components', '%s%s.ts'%(submenu,i), i[1:] + '.ts')
-            create_file('pages', '%s%s.html'%(submenu,i), i[1:] + '.html')                
+            if i == '-cu.component':
+                create_file('pages', '%s%s.html'%(submenu,i), i[1:] + '.html')                
 
 
 if __name__=='__main__':

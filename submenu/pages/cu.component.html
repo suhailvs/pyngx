@@ -1,36 +1,39 @@
 <div class="x_panel">
-    <h2 [ngSwitch]="actionType">
-        <ng-container *ngSwitchCase="'Save'">Add</ng-container>
+    <h5 [ngSwitch]="actionType">
+        <ng-container *ngSwitchCase="'Add'">Add</ng-container>
         <ng-container *ngSwitchCase="'Update'">Edit</ng-container>
          {{submenu|title}}
-    </h2>
+    </h5>
 </div>
 
 <div class="x_panel">
-    <form *ngIf="loadingFrm" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && first_name.invalid }">
-                    <label>Sample Field- FirstName:</label>
-                    <input type="text" class="form-control" name="first_name" placeholder="First Name" [(ngModel)]="{{extra}}.first_name" #first_name="ngModel" minlength="3" required/>
-                    <span *ngIf="f.submitted && first_name.invalid" class="help-block">
-                        <span *ngIf="first_name.errors.required">First Name is required</span>
-                        <span *ngIf="first_name.errors.minlength">First Name must be at least 3 characters</span>
-                    </span>
-                </div>                    
-            </div> 
-        </div>
-        <hr/>
-        <div class="row">                
-            <div class="col-md-6 col-md-offset-6">
-                <!-- <img *ngIf="loading" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" width="50"> -->
-                <div *ngIf="errors" class="alert alert-danger">{{ '{{' }}errors.error|json{{ '}}' }}</div>
-                <!--<a class="btn btn-warning pull-right" [routerLink]="'/controlpanel/users/'"> Cancel</a>-->
-                <a class="btn btn-danger pull-right" [routerLink]="'/{{menu}}/{{submenu}}/'"><i class="fa fa-close"></i> Cancel</a>
-                <button class="btn btn-primary pull-right" [disabled]="loading" type="submit"><i class="fa fa-save"></i> {{ '{{' }} actionType {{ '}}' }}</button>
-                
-            </div>
-        </div>
-    </form>               
+  <form (ngSubmit)="onSubmit()" [formGroup]="{{submenu}}Form" name="form">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <input formControlName="name" matInput placeholder="Location Name" type="text"/>
+          <mat-error *ngIf="submitted && f.name.errors">{{ '{{' }} 'Location Name is required' | translate {{ '}}' }}</mat-error>
+        </mat-form-field>
+      </div>
 
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <mat-select disableOptionCentering formControlName="status" placeholder="Status">
+            <mat-option disabled value="">--- {{ '{{' }} 'select' | translate {{ '}}' }} ---</mat-option>
+            <mat-option [value]="1">{{ '{{' }} 'Publish' | translate {{ '}}' }}</mat-option>
+            <mat-option [value]="0">{{ '{{' }} 'UnPublish' | translate {{ '}}' }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitted && f.status.errors">{{ '{{' }} 'Status is required' | translate {{ '}}' }}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-6">
+        <div *ngIf="errors" class="alert alert-danger">{{ '{{' }}errors.error|json{{ '}}' }}</div>
+        <a class="btn btn-danger pull-right" [routerLink]="'/{{menu}}/{{submenu}}/'"><i class="fa fa-close"></i> Cancel</a>
+        <button class="btn btn-primary pull-right" type="submit"><i class="fa fa-save"></i> {{ '{{' }} actionType {{ '}}' }}</button>
+      </div>
+    </div>
+  </form>
 </div>

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DataTablesModule } from 'angular-datatables';
 
 import { {{ menu|title }}RoutingModule } from './{{ menu }}-routing.module';
 import { {{ menu|title }}Component } from './{{ menu }}.component';
@@ -9,8 +8,7 @@ import { {{ menu|title }}Component } from './{{ menu }}.component';
   imports: [
     CommonModule,
     FormsModule,
-    {{ menu|title }}RoutingModule,
-    DataTablesModule
+    {{ menu|title }}RoutingModule
   ],
   declarations: [
     {{ menu|title }}Component

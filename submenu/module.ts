@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { DataTablesModule } from 'angular-datatables';
+import {MatButtonModule, MatIconModule, MatInputModule, MatSelectModule} from '@angular/material';
+
+import {SharedModule} from '../../../shared/shared.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 import { {{ submenu|title }}RoutingModule } from './{{ submenu }}-routing.module';
 
 import { {{ submenu|title }}Component } from './components/{{ submenu }}.component';
-import { {{ submenu|title }}ViewComponent } from './components/{{ submenu }}-view.component';
 import { {{ submenu|title }}CuComponent } from './components/{{ submenu }}-cu.component';
 
 @NgModule({
@@ -15,12 +17,17 @@ import { {{ submenu|title }}CuComponent } from './components/{{ submenu }}-cu.co
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    MatIconModule,
+    TranslateModule,
+    SharedModule,
+
     {{ submenu|title }}RoutingModule,
-    DataTablesModule
   ],
   declarations: [
     {{ submenu|title }}Component,
-    {{ submenu|title }}ViewComponent,
     {{ submenu|title }}CuComponent,
     ]
 })
