@@ -5,6 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
+
+import {MatIconModule} from '@angular/material/icon';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import {SharedModule} from '../../../shared/shared.module';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -20,6 +24,10 @@ import { {{ submenu|title }}CuComponent } from './components/{{ submenu }}-cu.co
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
+
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatIconModule,
     TranslateModule,
     SharedModule,
 
@@ -31,3 +39,6 @@ import { {{ submenu|title }}CuComponent } from './components/{{ submenu }}-cu.co
     ]
 })
 export class {{ submenu|title }}Module { }
+
+import {SharedModule} from '../../../shared/shared.module';
+import {TranslateModule} from '@ngx-translate/core';

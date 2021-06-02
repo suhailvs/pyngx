@@ -17,7 +17,7 @@ class GenerateMenu:
                 print('component:%s already exist.'%self.menu)
         else:
             print('''please call with arguments(name of the menu, submenus), 
-eg: python pyngx.py <component_name> '<subitem1>,<subitem2>,...<subitem10>''')
+eg: python pyngx.py <component_name> '<subitem1>,<subitem2>,...<subitem10>  python pyngx.py masters 'manager,serviceengineer,storemanager,vendor,customer,branchcoordinator,telecaller' ''')
     
 
     def create_directories(self):

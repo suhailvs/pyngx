@@ -1,8 +1,8 @@
 <div class="x_panel">
     <h5 [ngSwitch]="actionType">
-        <ng-container *ngSwitchCase="'Add'">Add</ng-container>
+        <ng-container *ngSwitchCase="'Save'">Add</ng-container>
         <ng-container *ngSwitchCase="'Update'">Edit</ng-container>
-         {{submenu|title}}
+         Branch Coordinator
     </h5>
 </div>
 
@@ -11,28 +11,124 @@
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
         <mat-form-field>
-          <input formControlName="name" matInput placeholder="Location Name" type="text"/>
-          <mat-error *ngIf="submitted && f.name.errors">{{ '{{' }} 'Location Name is required' | translate {{ '}}' }}</mat-error>
+          <input formControlName="username" matInput placeholder="Username"/>
+          <mat-error *ngIf="submitted && f.username.errors">
+            <span *ngIf="f.username.errors.pattern">Username is invalid</span>
+            <span *ngIf="f.username.errors.required">Username is required</span>
+            <span *ngIf="f.username.errors.minlength">Username must be at least 6 characters</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <input formControlName="first_name" matInput placeholder="First Name"/>
+          <mat-error *ngIf="submitted && f.first_name.errors">
+            <span *ngIf="f.first_name.errors.required">First Name is required</span>
+            <span *ngIf="f.first_name.errors.minlength">First Name must be at least 3 characters</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <input formControlName="middle_name" matInput placeholder="Middle Name"/>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <input formControlName="last_name" matInput placeholder="Last Name"/>
+        </mat-form-field>
+      </div>
+    </div>
+
+
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <input formControlName="email" matInput placeholder="Email" type="email" email="true" />
+          <mat-error *ngIf="submitted && f.email.errors">
+            <span *ngIf="f.email.errors.required">Email is required</span>
+            <span *ngIf="f.email.errors.email">Email must be a valid email address</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <input formControlName="password" matInput placeholder="Password" [required]="actionType == 'Save'" type="password"/>
+          <mat-error *ngIf="submitted && f.password.errors">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <input formControlName="confirm_password" matInput placeholder="Confirm Password" [required]="actionType == 'Save'" type="password"/>
+          <mat-error *ngIf="submitted && f.confirm_password.errors">
+            <span *ngIf="f.confirm_password.errors.required">Confirm Password is required</span>
+            <span *ngIf="f.confirm_password.errors.mustMatch">Passwords must match</span>
+          </mat-error>
         </mat-form-field>
       </div>
 
       <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
         <mat-form-field>
-          <mat-select disableOptionCentering formControlName="status" placeholder="Status">
-            <mat-option disabled value="">--- {{ '{{' }} 'select' | translate {{ '}}' }} ---</mat-option>
-            <mat-option [value]="1">{{ '{{' }} 'Publish' | translate {{ '}}' }}</mat-option>
-            <mat-option [value]="0">{{ '{{' }} 'UnPublish' | translate {{ '}}' }}</mat-option>
-          </mat-select>
-          <mat-error *ngIf="submitted && f.status.errors">{{ '{{' }} 'Status is required' | translate {{ '}}' }}</mat-error>
+          <input formControlName="title" matInput placeholder="Title"/>
         </mat-form-field>
       </div>
+
+      
     </div>
+    <div class="row">
+      
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <mat-select disableOptionCentering formControlName="gender" placeholder="Gender">
+            <mat-option value="M">Male</mat-option>
+            <mat-option value="F">Female</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Date of Birth" autocomplete="off"
+                   formControlName="dob"/>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <div class="row">
+          <div class="col-md-8">
+            <strong>Photo:</strong>
+            <app-file-upload formControlName="photo" [progress]="progress"></app-file-upload>
+            <span *ngIf="submitted && f.photo.errors" class="mat-error">Error</span>
+          </div>
+          <div class="col-md-4"><img [src]="profilepic" height="50"></div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+        <mat-form-field>
+          <mat-select disableOptionCentering formControlName="status" placeholder="Status">
+            <mat-option disabled value="">--- select ---</mat-option>
+            <mat-option [value]="1">Publish</mat-option>
+            <mat-option [value]="0">UnPublish</mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitted && f.status.errors">Status is required</mat-error>
+        </mat-form-field>
+      </div>
+    </div>      
+
     <hr/>
     <div class="row">
       <div class="col-md-6 offset-md-6">
-        <div *ngIf="errors" class="alert alert-danger">{{ '{{' }}errors.error|json{{ '}}' }}</div>
-        <a class="btn btn-danger btn-sm pull-right" [routerLink]="'/{{menu}}/{{submenu}}/'"><i class="fa fa-close"></i> Cancel</a>
+        <!-- <div *ngIf="errors" class="alert alert-danger">{{ '{{' }}errors.error|json{{ '}}' }}</div> -->
         <button class="btn btn-primary btn-sm pull-right" type="submit"><i class="fa fa-save"></i> {{ '{{' }} actionType {{ '}}' }}</button>
+        <a class="btn btn-danger btn-sm pull-right" [routerLink]="'/{{menu}}/{{submenu}}/'"><i class="fa fa-close"></i> Cancel</a>
       </div>
     </div>
   </form>

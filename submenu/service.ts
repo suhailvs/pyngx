@@ -12,12 +12,12 @@ export class {{ submenu|title }}Service {
     return this.httpClient.get('/{{ menu }}/{{ submenu }}/');
   }
   get{{ extra|title }}(id) {
-    return this.httpClient.get(`/{{ menu }}/{{ submenu }}/${id}/`);
+    return this.httpClient.get(`/{{ menu }}/{{ submenu }}/?id=${id}`);
   }
   post{{ extra|title }}({{ extra }}) {
     return this.httpClient.post('/{{ menu }}/{{ submenu }}/', {{ extra }});
   }
-  update{{ extra|title }}(id, {{ extra }}) {
-    return this.httpClient.patch(`/{{ menu }}/{{ submenu }}/${id}/`, {{ extra }});
+  update{{ extra|title }}({{ extra }}) {
+    return this.httpClient.patch('/{{ menu }}/{{ submenu }}/', {{ extra }});
   }
 }
