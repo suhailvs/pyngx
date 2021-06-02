@@ -6,7 +6,7 @@ const routes: Routes = [
         ...
         children: [
             ...
-            { path: '{{ menu }}', loadChildren: './{{ menu }}/{{ menu }}.module#{{ menu|title }}Module'},
+            { path: '{{ menu }}', loadChildren: () => import('./{{ menu }}/{{ menu }}.module').then((m) => m.{{ menu|title }}Module)},
         ]
     }
 ];
@@ -18,10 +18,11 @@ SIDE_BAR_MENUS = [{
     {
         "menu_text": "{{ menu|title }}",
         "menu_icon": "fa fa-tasks",
+        "role_type": ["SU", "A"],
         "sub_menu": [{
             "menu_text": "add_subtitle",
             "sub_sub_menu":[{% for submenu in submenus %}
-                {"link": "/{{ menu }}/{{submenu}}", "menu_text": "{{ submenu|title }}"},{% endfor %}
+                {"link": "/{{ menu }}/{{submenu}}", "menu_text": "{{ submenu|title }}", "role_type": ["SU", "A"]},{% endfor %}
             ]
         },{
             "menu_text": "if you want more subtitles",
@@ -30,3 +31,4 @@ SIDE_BAR_MENUS = [{
     },
     ...
 ]
+

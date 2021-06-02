@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {MatButtonModule, MatIconModule, MatInputModule, MatSelectModule} from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import {SharedModule} from '../../../shared/shared.module';
 import {TranslateModule} from '@ngx-translate/core';
@@ -17,10 +18,8 @@ import { {{ submenu|title }}CuComponent } from './components/{{ submenu }}-cu.co
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatButtonModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule,
     TranslateModule,
     SharedModule,
 

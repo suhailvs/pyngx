@@ -7,9 +7,8 @@ const routes: Routes = [
         path: '',
         component: {{ menu|title }}Component,
         children: [
-            // { path: '', redirectTo: '{{ submenu }}', pathMatch: 'prefix' },
             {% for submenu in submenus %}
-            { path: '{{ submenu }}', loadChildren: './{{ submenu }}/{{ submenu }}.module#{{ submenu|title }}Module'},{% endfor %}
+            { path: '{{ submenu }}', loadChildren: () => import('./{{ submenu }}/{{ submenu }}.module').then((m) => m.{{ submenu|title }}Module)},{% endfor %}
         ]
     }
 ];
